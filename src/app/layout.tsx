@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import "@/styles/global.css";
-import { Header } from "@/components/header";
+import Image from 'next/image';
+import Link from 'next/link';
+import utilStyles from '@/styles/utils.module.css';
 
-const siteTitle = "Alan's blog";
+const name = 'Alan69359';
 
 export default function RootLayout({
   children,
@@ -19,7 +20,23 @@ export default function RootLayout({
         )}
       >
         <div className="max-w-4xl mx-auto px-4 py-8">
-          <Header />
+          <header className="flex flex-col items-center">
+            <Link href="/">
+              <Image
+                priority
+                src="/images/profile.jpg"
+                className={utilStyles.borderCircle}
+                height={108}
+                width={108}
+                alt=""
+              />
+            </Link>
+            <h2 className={utilStyles.headingLg}>
+              <Link href="/" className={utilStyles.colorInherit}>
+                {name}
+              </Link>
+            </h2>
+          </header>
           <main className="mt-8">
             {children}
           </main>
