@@ -1,45 +1,43 @@
 import { cn } from "@/lib/utils";
 import "@/styles/global.css";
-import Image from 'next/image';
-import Link from 'next/link';
-import utilStyles from '@/styles/utils.module.css';
+import Header from '@/src/app/layout/header'
+import Footer from "@/src/app/layout/footer";
+import Body from "@/src/app/layout/body";
+import Image from 'next/image'
 
-const name = 'Alan69359';
+function Background() {
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      zIndex: -1,
+    }}>
+      <Image
+        src="/images/1.jpg"
+        alt="background image"
+        quality={100}
+        fill
+        sizes="100vw"
+        style={{
+          objectFit: 'cover',
+        }}
+      />
+    </div>
+  )
+}
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout() {
   return (
     <html lang="en">
-      <body
-        suppressHydrationWarning
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-        )}
-      >
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          <header className="flex flex-col items-center">
-            <Link href="/">
-              <Image
-                priority
-                src="/images/profile.jpg"
-                className={utilStyles.borderCircle}
-                height={108}
-                width={108}
-                alt=""
-              />
-            </Link>
-            <h2 className={utilStyles.headingLg}>
-              <Link href="/" className={utilStyles.colorInherit}>
-                {name}
-              </Link>
-            </h2>
-          </header>
-          <main className="mt-8">
-            {children}
-          </main>
+      <body>
+        <Background />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <Header />
+          <Body/>
+          <Footer/>
         </div>
       </body>
     </html>
