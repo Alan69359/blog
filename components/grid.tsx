@@ -29,14 +29,14 @@ const Item1 = styled(Item)({
 export default function ColumnsGrid() {
   return (
     <Box sx={{ backgroundColor: 'transparent' }}>
-      <Grid container spacing={16}>
+      <Grid container spacing={8}>
         <Grid size={12}>
           <Item1>「俺はこの世界で本気で生きていこう。もう、二度と後悔はしないように。全力で。」<br />“我将在这个世界中认真地活下去，不再有任何遗憾，全力以赴。“</Item1>
         </Grid>
-        <Grid size={8}>
-          <Item>Blogs</Item>
+        <Grid size={8} sx={{ margin: '32px' }}>
+          <Item >Blogs</Item>
         </Grid>
-        <Grid size={4}>
+        <Grid size="grow">
           <BasicCard/>
         </Grid>
       </Grid>
