@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import "@/styles/global.css";
 import Header from '@/src/app/layout/header'
 import Footer from "@/src/app/layout/footer";
@@ -38,6 +37,7 @@ export default function RootLayout() {
           <Header />
           <Body/>
           <Footer/>
+          {/* <script src="/live2d-widget/dist/autoload.js"></script> */}
         </div>
       </body>
     </html>
