@@ -35,11 +35,9 @@ export default function RootLayout() {
       <body>
         <Background />
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <Header />
-          <Body/>
-          <Footer/>
-          {/* <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.3/dist/waifu.css" />
-          <Script src="https://fastly.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.3/dist/autoload.js" strategy="afterInteractive" /> */}
+          <Header /><Body/><Footer/>
+          <link rel="stylesheet" href="/live2d-widget/waifu.css" />
+          <Script src="/live2d-widget/autoload.js" strategy="afterInteractive" />
         </div>
       </body>
     </html>
