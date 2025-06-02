@@ -14,7 +14,7 @@
       "@/app/*":["./src/app/*"],
       "@/styles/*":["./styles/*"],
       "@/public/*":["./public/*"],
-      "@/live2d-widget/*":["./live2d-widget/*"],
+      "@/submodules/*":["./submodules/*"],
     },
     "allowJs": true,
     "skipLibCheck": true,
