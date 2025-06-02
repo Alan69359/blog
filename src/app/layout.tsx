@@ -3,6 +3,7 @@ import Header from '@/src/app/layout/header'
 import Footer from "@/src/app/layout/footer";
 import Body from "@/src/app/layout/body";
 import Image from 'next/image'
+import Script from "next/script";
 
 function Background() {
   return (
@@ -37,7 +38,8 @@ export default function RootLayout() {
           <Header />
           <Body/>
           <Footer/>
-          {/* <script src="/live2d-widget/dist/autoload.js"></script> */}
+          <link rel="stylesheet" href="/live2d-widget/waifu.css" />
+          <Script src="/live2d-widget/autoload.js" strategy="afterInteractive" />
         </div>
       </body>
     </html>
