@@ -1,0 +1,36 @@
+{
+  "model": {
+    "jsonPath": "https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/assets/waifu-tips.json",
+    "scale": 1,
+    "hHeadPos": 0.5,
+    "vHeadPos": 0.618,
+    "hOffset": 0,
+    "vOffset": -150
+  },
+  "display": {
+    "superSample": 2,
+    "width": 150,
+    "height": 300,
+    "position": "right",
+    "hOffset": 0,
+    "vOffset": -20
+  },
+  "mobile": {
+    "show": true,
+    "scale": 0.5
+  },
+  "react": {
+    "opacityDefault": 0.7,
+    "opacityOnHover": 0.2
+  },
+  "dev": {
+    "log": false
+  },
+  "models": [
+    "bilibili-live/22",
+    "bilibili-live/33",
+    ["ShizukuTalk/shizuku-48", "ShizukuTalk/shizuku-pajama"],
+    ["Potion-Maker/Pio", "Potion-Maker/Tia"],
+    ["HyperdimensionNeptunia/neptune_classic", "HyperdimensionNeptunia/nepnep"]
+  ]
+}
