@@ -38,8 +38,8 @@ export default function RootLayout() {
           <Header />
           <Body/>
           <Footer/>
-          <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.3/dist/waifu.css" />
-          <Script src="https://fastly.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.3/dist/autoload.js" strategy="afterInteractive" />
+          {/* <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.3/dist/waifu.css" />
+          <Script src="https://fastly.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.3/dist/autoload.js" strategy="afterInteractive" /> */}
         </div>
       </body>
     </html>
