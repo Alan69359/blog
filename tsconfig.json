@@ -13,7 +13,8 @@
       "@/src/*":["./src/*"],
       "@/app/*":["./src/app/*"],
       "@/styles/*":["./styles/*"],
-      "@/public/*":["./public/*"]
+      "@/public/*":["./public/*"],
+      "@/live2d-widget/*":["./live2d-widget/*"],
     },
     "allowJs": true,
     "skipLibCheck": true,
