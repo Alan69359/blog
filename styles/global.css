@@ -1,5 +1,23 @@
-html,
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
+  background-image: url('/images/a.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+/* 
+body {
+  font-family:'Courier New', Courier, monospace;
+  font-weight: 100;
+  font-size:large;
+  line-height: normal;
+  color: black;
   height: 100% ;
 }
 
@@ -12,7 +30,8 @@ body {
 
 main {
   flex-grow: 1;
-}
+} 
+*/
 
 footer {
   margin-top: auto;
