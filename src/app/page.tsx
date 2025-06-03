@@ -1,7 +1,5 @@
-import Link from 'next/link';
-import Date from '@/components/date';
 import { getSortedPostsData } from '@/lib/posts';
-import utilStyles from '@/styles/utils.module.css';
+import ColumnsGrid from "@/components/grid"
 
 type Post = {
   id: string;
@@ -9,24 +7,12 @@ type Post = {
   title: string;
 };
 
+const allPostsData = (await getSortedPostsData()) as Post[];
+
 export default async function Home() {
-  const allPostsData = getSortedPostsData() as Post[];
-  
   return (
-    <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-      {/* <DarkLightToggle /> */}
-      <h2 className={utilStyles.headingLg}>Blog</h2>
-      <ul className={utilStyles.list}>
-        {allPostsData.map(({ id, date, title }) => (
-          <li className={utilStyles.listItem} key={id}>
-            <Link href={`/posts/${id}`}>{title}</Link>
-            <br />
-            <small className={utilStyles.lightText}>
-              <Date dateString={date}/>
-            </small>
-          </li>
-        ))}
-      </ul>
-    </section>
+    <>
+      <ColumnsGrid posts={allPostsData}/>
+    </>
   );
 }

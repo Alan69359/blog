@@ -1,6 +1,5 @@
 import { getAllPostIds, getPostData } from "@/lib/posts";
 import Date from "@/components/date";
-import utilStyles from "@/styles/utils.module.css";
 import { Metadata } from "next";
 
 type PostData = {
@@ -33,8 +32,8 @@ export default async function Post({ params }: { params: { id: string } }) {
   
   return (
     <article>
-      <h1 className={utilStyles.headingXl}>{postData.title}</h1>
-      <div className={utilStyles.lightText}>
+      <h1>{postData.title}</h1>
+      <div>
         <Date dateString={postData.date} />
       </div>
       <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />

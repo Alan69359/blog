@@ -9,9 +9,9 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 
-var int1=0, int2=0
+var int1 = 0, int2 = 0
 
-export default function BasicCard() {
+export function BasicCard1() {
   return (
       <Card sx={{ margin: '32px'}}>
         <CardContent sx={{ display: 'flex', justifyContent: 'center'}}>
@@ -26,9 +26,46 @@ export default function BasicCard() {
           </Box>
         </CardContent>
         <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button><GitHubIcon/></Button>
+          <Button
+            href='https://github.com/Alan69359'
+          ><GitHubIcon />
+          </Button>
           <Button><LinkedInIcon/></Button>
         </CardActions>
       </Card>
   );
+}
+
+export function BasicCard3(){
+  return (
+    <Card sx={{ margin: '32px'}}>
+        <CardContent sx={{ display: 'flex', justifyContent: 'center'}}>
+          Blog
+        </CardContent>
+        <CardContent sx={{ display: 'flex' ,justifyContent: 'center' }}>
+          <Box sx={{margin:'8px', textAlign: 'center'}}>
+            <Typography>Post<br/>{int1}</Typography>
+          </Box>
+          <Box sx={{margin:'8px', textAlign: 'center'}}>
+            <Typography>Tag<br/>{int2}</Typography>
+          </Box>
+        </CardContent>
+        <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Button><GitHubIcon/></Button>
+          <Button><LinkedInIcon/></Button>
+        </CardActions>
+      </Card>
+  )
+    // <h2>Blog</h2>
+    //         <ul>
+    //           {posts.map(({ id, date, title }) => (
+    //             <li key={id}>
+    //               <Link href={`/posts/${id}`}>{title}</Link>
+    //               <br />
+    //               <small>
+    //                 <Date dateString={date}/>
+    //               </small>
+    //             </li>
+    //           ))}
+    //         </ul>       
 }
