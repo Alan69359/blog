@@ -1,9 +1,6 @@
-[submodule "live2d-widget"]
-	path = live2d-widget
+[submodule "public/live2d-widget"]
+	path = public/live2d-widget
 	url = https://github.com/Alan69359/live2d-widget
-[submodule "submodules/live2d-widget"]
-	path = submodules/live2d-widget
-	url = https://github.com/Alan69359/live2d-widget
-[submodule "submodules/live2d_api"]
+[submodule "public/live2d_api"]
 	path = public/live2d_api
 	url = https://github.com/fghrsh/live2d_api
