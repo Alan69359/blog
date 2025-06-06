@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import Avatar1 from '@/components/avatar';
+import Avatar1 from 'ui/avatar';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import {
@@ -11,7 +11,6 @@ import {
   Divider,
 } from '@mui/material';
 import Box from '@mui/material/Box';
-import {PostData} from '@/src/app/posts/[id]/page';
 import Link from 'next/link';
 import { format } from 'date-fns';
 
@@ -32,21 +31,28 @@ export function Card1() {
           </Box>
         </CardContent>
         <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            href='https://github.com/Alan69359'
-          ><GitHubIcon />
+          <Button href='https://github.com/Alan69359'>
+            <GitHubIcon />
           </Button>
-          <Button><LinkedInIcon/></Button>
+          <Button href='https://www.linkedin.com/in/ngai-kam-lun-a02a61174/'>
+            <LinkedInIcon/>
+          </Button>
         </CardActions>
       </Card>
   );
 }
 
+type PostData = {
+  slug: string;
+  title: string;
+  date: string;
+  contentHtml: string;
+};
+
 interface BlogListProps {
   posts: PostData[];
 }
 
-// const BasicCard3 : React.FC<PostData> = ({ posts}) => {
 export function Cards1 ({ posts }: BlogListProps):React.JSX.Element {
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto', my: 4 }}>
@@ -55,9 +61,9 @@ export function Cards1 ({ posts }: BlogListProps):React.JSX.Element {
       </Typography>
       
       {posts.map((post) => (
-        <React.Fragment key={post.id}>
+        <React.Fragment key={post.slug}>
           <Card sx={{ mb: 3 }}>
-            <Link href={`/posts/${post.id}`}>
+            <Link href={`/blog/${post.slug}`}>
               <CardContent>
                 <Typography variant="h5" component="h3" gutterBottom>
                   {post.title}
@@ -81,17 +87,5 @@ export function Cards1 ({ posts }: BlogListProps):React.JSX.Element {
         </React.Fragment>
       ))}
     </Box>
-  )
-    // <h2>Blog</h2>
-    //         <ul>
-    //           {posts.map(({ id, date, title }) => (
-    //             <li key={id}>
-    //               <Link href={`/posts/${id}`}>{title}</Link>
-    //               <br />
-    //               <small>
-    //                 <Date dateString={date}/>
-    //               </small>
-    //             </li>
-    //           ))}
-    //         </ul>       
+  )     
 }

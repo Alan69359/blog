@@ -16,7 +16,9 @@ export default function RootLayout(
     <html>
         <body>
           <div style={{ position: 'relative', zIndex: 1 }}>
-            <Header/>{children}<Footer/>
+            <Header/>
+            {children}
+            <Footer/>
             <link rel="stylesheet" href="/live2d-widget/dist/waifu.css" />
             <Script src="/live2d-widget/dist/autoload.js" strategy="afterInteractive" />
           </div>

@@ -1,7 +1,7 @@
-import ResponsiveAppBar from "@/components/app-bar"
+import ResponsiveAppBar from "ui/app-bar"
 
 export default function Header(){
   return (
-    <ResponsiveAppBar/>
+    <ResponsiveAppBar />
   )
 }
