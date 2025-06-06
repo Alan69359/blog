@@ -5,10 +5,11 @@
 }
 
 body {
+  padding-top: 64px;
   background-image: linear-gradient(
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5)
-    ), url('/images/a.jpg');
+    ), url('/images/wallpaper.jpg');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;

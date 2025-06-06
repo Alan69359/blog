@@ -1,11 +1,12 @@
 import { getSortedPostsData } from '@/lib/posts';
-import Grid1 from "@/components/grid"
-import Box1 from '@/components/box';
+import Grid1 from "ui/grid"
+import Box1 from 'ui/box';
 
 type Post = {
-  id: string;
+  slug: string;
   date: string;
   title: string;
+  contentHtml:string;
 };
 
 const allPostsData = (await getSortedPostsData()) as Post[];

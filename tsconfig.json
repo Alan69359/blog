@@ -8,7 +8,7 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/components/*":["./components/*"],
+      "@/components/*":["ui/*"],
       "@/lib/*":["./lib/*"],
       "@/src/*":["./src/*"],
       "@/app/*":["./src/app/*"],
