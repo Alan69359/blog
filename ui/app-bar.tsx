@@ -17,6 +17,8 @@ import Fade from '@mui/material/Fade';
 import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Slide from '@mui/material/Slide';
+import { Typography } from '@mui/material';
+import ThemeToggle from '@/ui/dark-mode';
 
 const pages = [
   { name: 'Home', path: '/' },
@@ -25,10 +27,6 @@ const pages = [
 ];
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window;
   children?: React.ReactElement<unknown>;
 }
@@ -123,7 +121,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function ResponsiveAppBar() {
+export function AppBar1() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -166,6 +164,7 @@ export default function ResponsiveAppBar() {
                   </Button>
                 ))}
               </Box>
+              <ThemeToggle/>
 
               <Search>
                 <SearchIconWrapper>
@@ -187,5 +186,15 @@ export default function ResponsiveAppBar() {
         </Fab>
       </ScrollTop>
     </>
+  );
+}
+
+export function AppBar2() {
+  return (
+    <AppBar position="static" color="transparent" sx={{ mt: 'auto' }}>
+      <Toolbar>
+        <Typography sx={{ textAlign: 'center', width: '100%' }}>© 2025 Alan69359. All rights reserved.</Typography>
+      </Toolbar>
+    </AppBar>
   );
 }

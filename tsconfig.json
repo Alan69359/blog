@@ -14,6 +14,7 @@
       "@/app/*":["./src/app/*"],
       "@/styles/*":["./styles/*"],
       "@/submodules/*":["./submodules/*"],
+      "@/ui/*": ["./ui/*"],
     },
     "allowJs": true,
     "skipLibCheck": true,

@@ -1,5 +1,5 @@
 import { getSortedPostsData } from '@/lib/posts';
-import Grid1 from "ui/grid"
+import Grid1 from "ui/grid";
 import Box1 from 'ui/box';
 
 type Post = {
