@@ -1,7 +1,7 @@
-import ResponsiveAppBar from "ui/app-bar"
+import {AppBar1} from "ui/app-bar"
 
 export default function Header(){
   return (
-    <ResponsiveAppBar />
+    <AppBar1 />
   )
 }
