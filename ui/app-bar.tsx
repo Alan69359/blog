@@ -17,10 +17,8 @@ import Fade from '@mui/material/Fade';
 import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Slide from '@mui/material/Slide';
-import {useColorMode} from '@/ui/dark-mode';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { Typography } from '@mui/material';
+import ThemeToggle from '@/ui/dark-mode';
 
 const pages = [
   { name: 'Home', path: '/' },
@@ -134,8 +132,6 @@ export function AppBar1() {
     setAnchorElNav(null);
   };
 
-  const { mode, toggleColorMode } = useColorMode();
-
   return (
     <>
       <div id="back-to-top-anchor" />
@@ -168,16 +164,7 @@ export function AppBar1() {
                   </Button>
                 ))}
               </Box>
-
-              {/* <useColorMode /> */}
-              <IconButton
-                onClick={toggleColorMode}
-                color="inherit"
-                aria-label="toggle dark mode"
-                sx={{ ml: 1 }}
-              >
-                {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-              </IconButton>
+              <ThemeToggle/>
 
               <Search>
                 <SearchIconWrapper>
