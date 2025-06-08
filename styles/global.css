@@ -15,11 +15,3 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-body {
-  background-image: 
-    url('/images/wallpaper.jpg');
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-}

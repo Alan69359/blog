@@ -28,7 +28,8 @@ import ThemeToggle from '@/components/tooltip';
 const NAVIGATION_PAGES = [
   { name: 'Home', path: '/' },
   { name: 'Blog', path: '/blog' },
-  { name: 'About', path: '/about' }
+  { name: 'About', path: '/about' },
+  { name: 'Comment', path: '/comment' },
 ];
 
 const SCROLL_TRIGGER_THRESHOLD = 100;
