@@ -1,37 +1,29 @@
 'use client'
 
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import { useColorScheme } from '@mui/material/styles';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useEffect, useState } from 'react';
+import { IconButton, Tooltip } from '@mui/material';
+import { useColorScheme } from '@mui/material/styles';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
 
 export default function ThemeToggle() {
-    const { mode, setMode } = useColorScheme();
-    const [mounted, setMounted] = useState(false);
+  const { mode, setMode } = useColorScheme();
+  const [mounted, setMounted] = useState(false);
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    const handleToggle = () => {
-        setMode(mode === 'dark' ? 'light' : 'dark');
-    };
+  if (!mounted) return null;
 
-    if (!mounted) {
-        return (
-            <IconButton color="inherit" disabled>
-                <Brightness4Icon />
-            </IconButton>
-        );
-    }
+  const toggleTheme = () => setMode(mode === 'dark' ? 'light' : 'dark');
 
-    return (
-        <Tooltip title={`Switch to ${mode === 'dark' ? 'light' : 'dark'} mode`}>
-            <IconButton onClick={handleToggle} color="inherit">
-                {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-            </IconButton>
-        </Tooltip>
-    );
+  return (
+    <div style={{ display: 'flex', gap: '8px' }}>
+      <Tooltip title="Toggle light/dark mode">
+        <IconButton onClick={toggleTheme} color="inherit">
+          {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+        </IconButton>
+      </Tooltip>
+    </div>
+  );
 }
