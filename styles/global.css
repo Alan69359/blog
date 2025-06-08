@@ -15,16 +15,3 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-body {
-  padding-top: 64px;
-  background-image: 
-    url('/images/wallpaper.jpg');
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-}
-
-footer {
-  margin-top: auto;
-}
