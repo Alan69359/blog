@@ -8,7 +8,6 @@ import {
   IconButton,
   Container,
   Button,
-  Typography,
   InputBase,
   Fab,
   Fade,
@@ -22,25 +21,23 @@ import {
   KeyboardArrowUp
 } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
-import ThemeToggle from '@/components/tooltip';
+import ThemeToggle from '@/ui/tooltip';
 
-// Constants
 const NAVIGATION_PAGES = [
   { name: 'Home', path: '/' },
   { name: 'Blog', path: '/blog' },
   { name: 'About', path: '/about' },
+  { name: 'Meme', path: '/meme' },
   { name: 'Comment', path: '/comment' },
 ];
 
 const SCROLL_TRIGGER_THRESHOLD = 100;
 
-// Types
 interface ScrollComponentProps {
   window?: () => Window;
   children?: React.ReactElement;
 }
 
-// Styled Components
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -82,7 +79,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-// Utility Components
 function HideAppbar({ children }: ScrollComponentProps) {
   const trigger = useScrollTrigger();
 
@@ -93,56 +89,36 @@ function HideAppbar({ children }: ScrollComponentProps) {
   );
 }
 
-function BackToTop({ window: windowProp }: ScrollComponentProps) {
+function BackToTop() {
   const trigger = useScrollTrigger({
-    target: windowProp ? windowProp() : undefined,
     disableHysteresis: true,
     threshold: SCROLL_TRIGGER_THRESHOLD,
   });
 
-  const handleScrollToTop = (event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    console.log('Scroll to top clicked!'); // Debug log
-
-    // Check if we're in browser environment
-    if (typeof window === 'undefined') {
-      console.log('Window is undefined');
-      return;
+  const handleScrollToTop = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
     }
-
-    // Simple, direct scroll to top
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
   };
 
   return (
     <Fade in={trigger}>
+      {/*
+        The <Box> is now purely for positioning.
+        The onClick handler is moved to the <Fab> component where it belongs.
+      */}
       <Box
-        sx={{
-          position: 'fixed',
-          bottom: 80, // Moved higher above footer
-          right: 16,
-          zIndex: 9999, // Very high z-index
-          pointerEvents: 'auto', // Ensure pointer events work
-        }}
+        role="presentation"
+        sx={{ position: 'fixed', bottom: 80, right: 16, zIndex: 100 }}
       >
         <Fab
           size="small"
-          color="primary"
           aria-label="scroll back to top"
-          onClick={handleScrollToTop}
-          sx={{
-            cursor: 'pointer',
-            '&:hover': {
-              transform: 'scale(1.1)',
-            },
-            // Force visibility and interaction
-            pointerEvents: 'auto',
-            zIndex: 9999,
-          }}
+          color="primary"
+          onClick={handleScrollToTop} // <<< The onClick handler is now here
         >
           <KeyboardArrowUp />
         </Fab>
@@ -215,7 +191,6 @@ export function AppBar1() {
 
   return (
     <>
-      {/* Move anchor to be more accessible */}
       <div
         id="back-to-top-anchor"
         style={{
@@ -230,20 +205,20 @@ export function AppBar1() {
 
       <HideAppbar>
         <AppBar
-          position="fixed"
+          position="sticky"
+          elevation={0} // Keep the flat look
           sx={{
-            backgroundColor: 'transparent',
-            elevation: 0,
-            zIndex: 2
+            backgroundColor: 'rgba(0, 0, 0, 0.2)', // A bit of dark background for readability
+            backdropFilter: 'blur(8px)', // The glass effect
           }}
         >
+          {/* Container and Toolbar are correctly used to align content */}
           <Container maxWidth="xl">
             <Toolbar disableGutters>
+              {/* ... All your Toolbar children are fine */}
               <Adb sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-
               <MobileNavigation onMenuOpen={handleOpenNavMenu} />
               <DesktopNavigation onMenuClose={handleCloseNavMenu} />
-
               <ThemeToggle />
               <SearchField />
             </Toolbar>
@@ -251,24 +226,7 @@ export function AppBar1() {
         </AppBar>
       </HideAppbar>
 
-      <BackToTop>
-        <Fab size="small" aria-label="scroll back to top">
-          <KeyboardArrowUp />
-        </Fab>
-      </BackToTop>
+      <BackToTop/>
     </>
-  );
-}
-
-// footer
-export function AppBar2() {
-  return (
-    <AppBar position="static" color="transparent" sx={{ mt: 'auto', zIndex:2 }}>
-      <Toolbar>
-        <Typography sx={{ textAlign: 'center', width: '100%' }}>
-          © 2025 Alan69359. All rights reserved.
-        </Typography>
-      </Toolbar>
-    </AppBar>
   );
 }

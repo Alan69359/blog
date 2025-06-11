@@ -1,6 +1,6 @@
-import { getSortedPostsData } from '@/lib/posts';
-import Grid1 from "ui/grid";
-import Box1 from 'ui/box';
+import { getSortedPostsData } from 'lib/posts';
+import {Grid1} from "ui/grid";
+import {Box11} from 'ui/box';
 
 type Post = {
   slug: string;
@@ -24,7 +24,7 @@ export default async function Home() {
         overflow: 'hidden',
         flexShrink: 0
       }}>
-        <Box1 style={{
+        <Box11 style={{
           height: '100%',
           overflow: 'auto'
         }} />

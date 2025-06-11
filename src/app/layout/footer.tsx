@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { AppBar2 } from '@/components/app-bar';
+import { Box1 } from 'ui/box';
 
 export default function Footer(){
     return (
-        <AppBar2 />
+        <Box1 />
     )
 }

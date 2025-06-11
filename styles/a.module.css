@@ -1,0 +1,117 @@
+.loaderContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(14, 21, 37, 0.95);
+    /* A dark, semi-transparent background */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.lottieWrapper {
+    width: 250px;
+    /* Adjust size as needed */
+    height: 250px;
+}
+
+.loadingText {
+    margin-top: 20px;
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-family: sans-serif;
+    letter-spacing: 2px; 
+}
+
+
+/* components/OpenBook.module.css */
+
+.bookContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.book {
+    display: flex;
+    width: 90vw;
+    max-width: 900px;
+    /* Adjust max width as needed */
+    height: 600px;
+    position: relative;
+    /* Set the perspective on the book itself */
+    perspective: 2000px;
+}
+
+.page {
+    width: 50%;
+    height: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.flippingPage {
+    position: absolute;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    transform-origin: left center;
+    /* CRUCIAL: The page flips from its left edge */
+    transform-style: preserve-3d;
+    transition: transform 1s;
+}
+
+.pageFace {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    /* Hides the back of a plane when it's facing away from the viewer */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.back {
+    /* Back face is flipped 180 degrees initially */
+    transform: rotateY(180deg);
+}
+
+/* --- ANIMATION CLASSES --- */
+
+/* Animation for turning the page FORWARD */
+.flipForward {
+    animation: turn-forward 1.2s ease-in-out forwards;
+}
+
+@keyframes turn-forward {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    100% {
+        transform: rotateY(-180deg);
+    }
+}
+
+/* Animation for turning the page BACKWARD */
+.flipBackward {
+    /* Start from the flipped state and animate back */
+    transform: rotateY(-180deg);
+    animation: turn-backward 1.2s ease-in-out forwards;
+}
+
+@keyframes turn-backward {
+    0% {
+        transform: rotateY(-180deg);
+    }
+
+    100% {
+        transform: rotateY(0deg);
+    } }
