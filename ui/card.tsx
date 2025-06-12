@@ -16,7 +16,7 @@ import Avatar1 from 'ui/avatar';
 
 // Profile card component
 export function Card1() {
-  const postCount = 0;
+  const postCount = 2;
   const tagCount = 0;
 
   return (
@@ -51,14 +51,14 @@ export function Card1() {
 }
 
 // Type definitions
-interface PostData {
+export interface PostData {
   slug: string;
   title: string;
   date: string;
   contentHtml: string;
 }
 
-interface BlogListProps {
+export interface BlogListProps {
   posts: PostData[];
 }
 
@@ -83,7 +83,7 @@ const formatPostDate = (dateString: string): React.ReactNode => {
 };
 
 // Blog post card component
-const Card2: React.FC<{ post: PostData }> = ({ post }) => (
+export const Card2: React.FC<{ post: PostData }> = ({ post }) => (
   <Card sx={{ mb: 3 }}>
     <Link href={`/blog/${post.slug}`}>
       <CardContent>
@@ -100,21 +100,3 @@ const Card2: React.FC<{ post: PostData }> = ({ post }) => (
     </Link>
   </Card>
 );
-
-// Blog list component
-export function Box1({ posts }: BlogListProps): React.JSX.Element {
-  return (
-    <Box sx={{ maxWidth: 800, mx: 'auto', my: 4 }}>
-      <Typography variant="h4" component="h2" gutterBottom>
-        Latest Posts
-      </Typography>
-
-      {posts.map((post, index) => (
-        <React.Fragment key={post.slug}>
-          <Card2 post={post} />
-          {index < posts.length - 1 && <Divider sx={{ my: 2 }} />}
-        </React.Fragment>
-      ))}
-    </Box>
-  );
-}

@@ -1,0 +1,16 @@
+[
+  {
+    "id": "rickroll",
+    "title": "Rickroll",
+    "video_url": "https://cdn.example.com/rickroll.mp4",
+    "thumbnail_url": "https://cdn.example.com/rickroll-thumb.jpg",
+    "tags": ["classic", "music", "prank"]
+  },
+  {
+    "id": "kombucha_girl",
+    "title": "Kombucha Girl Reaction",
+    "video_url": "https://cdn.example.com/kombucha.mp4",
+    "thumbnail_url": "https://cdn.example.com/kombucha-thumb.jpg",
+    "tags": ["reaction", "tiktok", "cringe", "funny"]
+  }
+]

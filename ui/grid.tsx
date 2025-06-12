@@ -3,9 +3,10 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import * as Card0 from './card';
+import * as Card0 from '@/ui/card';
+import { Box3 } from '@/ui/box';
 
-export default function Grid1({ posts }) {
+export function Grid1({ posts }) {
   return (
     <Box sx={{
       backgroundColor: 'transparent',
@@ -25,13 +26,13 @@ export default function Grid1({ posts }) {
           paddingTop: '32px',
           paddingBottom: '32px'
         }}>
-          <Card0.Box1 posts={posts} />
+          <Box3 posts={posts} />
         </Grid>
         <Grid size="grow" sx={{
           paddingTop: '32px',
           paddingBottom: '32px'
         }}>
-          <Card0.Card1 />
+          <Card0.Card1/>
         </Grid>
       </Grid>
     </Box>

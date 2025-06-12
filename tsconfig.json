@@ -8,13 +8,12 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/components/*":["ui/*"],
       "@/lib/*":["./lib/*"],
       "@/src/*":["./src/*"],
-      "@/app/*":["./src/app/*"],
       "@/styles/*":["./styles/*"],
       "@/submodules/*":["./submodules/*"],
       "@/ui/*": ["./ui/*"],
+      "@/database/*": ["./database/*"],
     },
     "allowJs": true,
     "skipLibCheck": true,
@@ -39,7 +38,7 @@
     "**/*.tsx",
     "next-env.d.ts",
     ".next/types/**/*.ts"
-  ],
+, "lib/theme.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,17 +1,67 @@
+// // src/app/layout.tsx
+// 'use client';
+
+// import "styles/global.css";
+// import Header from 'src/app/layout/header';
+// import Footer from "src/app/layout/footer";
+// import * as React from 'react';
+// import { ThemeProvider } from '@mui/material/styles';
+// import CssBaseline from '@mui/material/CssBaseline';
+// import Box from '@mui/material/Box';
+// import { styled } from '@mui/material/styles';
+// import { theme } from 'lib/theme';
+// import dynamic from 'next/dynamic';
+// import Script from 'next/script';
+
+// const Live2dWidget = dynamic(() => import('lib/Live2dWidget'), {
+//   ssr: false,
+// });
+
+// const Background = styled(Box)({ /* ... your styles ... */ });
+
+// export default function RootLayout({ children }: { children: React.ReactNode }) {
+//   const modelUrl = "https://cdn.jsdelivr.net/gh/guansss/pixi-live2d-display/test/assets/mao/mao.model3.json";
+  
+
+//   return (
+//     <ThemeProvider theme={theme}>
+//       <CssBaseline />
+//       <html lang="en">
+//         <head>
+//           <Script
+//             src="/live2d/CubismSdkForWeb-5-r.4/Core/live2dcubismcore.js"
+//             strategy="beforeInteractive"
+//           />
+//         </head>
+//         <body>
+//           <Background />
+//           <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+//             <Header />
+//             <Box component="main" sx={{ flexGrow: 1 }}>
+//               {children}
+//             </Box>
+//             <Footer />
+//           </Box>
+//           <Live2dWidget modelUrl={modelUrl} />
+//         </body>
+//       </html>
+//     </ThemeProvider>
+//   );
+// }
+
+// src/app/layout.tsx
 'use client';
 
-import "@/styles/global.css";
-import Header from '@/src/app/layout/header'; // Make sure ThemeToggle is in here
-import Footer from "@/src/app/layout/footer";
+import "styles/global.css";
+import Header from 'src/app/layout/header';
+import Footer from "src/app/layout/footer";
 import * as React from 'react';
-import Script from 'next/script';
-import {
-  Experimental_CssVarsProvider as CssVarsProvider,
-} from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline'; // Important for CSS Vars
-import { theme } from '@/lib/theme';
-import { styled } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import { theme } from 'lib/theme';
+import Live2DViewer from "@/lib/Live2DViewer";
 
 const Background = styled(Box)({
   position: 'fixed',
@@ -38,72 +88,25 @@ const Background = styled(Box)({
   // },
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    // Use CssVarsProvider here
-    <CssVarsProvider
-      theme={theme}
-      defaultMode="system" // This tells the provider the initial mode preference
-      modeStorageKey="my-app-mode" // localStorage key for mode preference (light/dark/system)
-      colorSchemeStorageKey="my-app-color-scheme" // localStorage key for resolved scheme (light/dark)
-    >
-      {/* CssBaseline enables color scheme adaptive styling and other global resets */}
-      <CssBaseline enableColorScheme />
-      {/* 
-        CssVarsProvider will automatically add `data-mui-color-scheme` to the <html> tag
-        because it's the first available DOM node it can control within its direct children.
-      */}
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <html lang="en">
-        <body style={{ margin: 0, padding: 0 }}>
+        <head>
+        </head>
+        <body>
           <Background />
-          <div style={{
-            position: 'relative',
-            zIndex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: '100vh',
-            width: '100%'
-          }}>
-            <div style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              zIndex: 2,
-            }}>
-              <Header /> {/* Your ThemeToggle component should be rendered within Header */}
-            </div>
-
-            <main style={{
-              flex: '1 0 auto',
-              width: '100%',
-              padding: '0',
-              boxSizing: 'border-box',
-              paddingTop: '64px',
-              position: 'relative',
-              zIndex: 1,
-            }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Header />
+            <Box component="main" sx={{ flexGrow: 1 }}>
               {children}
-            </main>
-
-            <div style={{
-              bottom: 0,
-              left: 0,
-              right: 0,
-              zIndex: 2,
-            }}>
-              <Footer />
-            </div>
-
-            <link rel="stylesheet" href="/live2d-widget/dist/waifu.css" />
-            <Script src="/live2d-widget/dist/autoload.js" strategy="afterInteractive" />
-          </div>
+            </Box>
+            <Live2DViewer/>
+            <Footer />
+          </Box>
         </body>
       </html>
-    </CssVarsProvider>
+    </ThemeProvider>
   );
 }

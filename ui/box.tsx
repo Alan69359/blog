@@ -1,15 +1,36 @@
 'use client';
 
 import * as React from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
-import { TextField, Button, Box, Typography, Alert, CircularProgress } from '@mui/material';
-import { addComment, AddCommentFormState } from '@/lib/comment'; // Ensure correct path
+import { useFormStatus } from 'react-dom';
+import { TextField, Button, Box, Typography, Alert, CircularProgress,Divider } from '@mui/material';
+import { addComment, AddCommentFormState } from 'lib/comment'; // Ensure correct path
+import * as Card from 'ui/card'
 
 interface Box1Props {
   style?: React.CSSProperties;
 }
 
-export default function Box1({ style }: Box1Props) {
+// box of footer
+export function Box1() {
+  return (
+    <Box
+      component="footer"
+      sx={{
+        py: 2, // Use theme spacing for padding
+        px: 2,
+        // mt: 'auto' is no longer needed here because the parent flex container handles it.
+        backgroundColor: 'rgba(0, 0, 0, 0.2)', // Match the header style
+        backdropFilter: 'blur(8px)',
+      }}
+    >
+      <Typography variant="body2" align="center" color="text.secondary">
+        © 2025 Alan69359. All rights reserved.
+      </Typography>
+    </Box>
+  );
+}
+
+export function Box11({ style }: Box1Props) {
   return (
     <Box
       sx={{
@@ -61,7 +82,8 @@ function SubmitButton() {
   );
 }
 
-export function CommentForm() {
+// form of comment
+export function Box2() {
   const [state, formAction] = React.useActionState(addComment, initialState);
 
   const formRef = React.useRef<HTMLFormElement>(null);
@@ -114,6 +136,24 @@ export function CommentForm() {
         InputLabelProps={{ shrink: true }}
       />
       <SubmitButton />
+    </Box>
+  );
+}
+
+// Blog list component
+export function Box3({ posts }: Card.BlogListProps): React.JSX.Element {
+  return (
+    <Box sx={{ maxWidth: 800, mx: 'auto', my: 4 }}>
+      <Typography variant="h4" component="h2" gutterBottom>
+        Latest Posts
+      </Typography>
+
+      {posts.map((post, index) => (
+        <React.Fragment key={post.slug}>
+          <Card.Card2 post={post} />
+          {index < posts.length - 1 && <Divider sx={{ my: 2 }} />}
+        </React.Fragment>
+      ))}
     </Box>
   );
 }
