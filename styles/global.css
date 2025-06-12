@@ -15,3 +15,12 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+canvas {
+  pointer-events: none;
+}
+
+/* This re-enables clicks for the Live2D model itself */
+canvas .live2d-display {
+  pointer-events: auto;
+}
