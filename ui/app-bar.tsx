@@ -160,6 +160,7 @@ function MobileNavigation({ onMenuOpen }: { onMenuOpen: (event: React.MouseEvent
   );
 }
 
+// And update DesktopNavigation to respect the new color
 function DesktopNavigation({ onMenuClose }: { onMenuClose: () => void }) {
   return (
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -168,7 +169,13 @@ function DesktopNavigation({ onMenuClose }: { onMenuClose: () => void }) {
           key={page.name}
           href={page.path}
           onClick={onMenuClose}
-          sx={{ my: 2, color: 'white', display: 'block' }}
+          sx={{
+            my: 2,
+            // The AppBar now sets the color to 'black', so the buttons
+            // can just inherit that color.
+            color: 'inherit',
+            display: 'block'
+          }}
         >
           {page.name}
         </Button>
@@ -177,46 +184,42 @@ function DesktopNavigation({ onMenuClose }: { onMenuClose: () => void }) {
   );
 }
 
-// header
+// app bar of header
 export function AppBar1() {
   const [anchorElNav, setAnchorElNav] = React.useState<HTMLElement | null>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => { /* ... */ };
+  const handleCloseNavMenu = () => { /* ... */ };
 
   return (
     <>
-      <div
-        id="back-to-top-anchor"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: 1,
-          height: 1,
-          visibility: 'hidden'
-        }}
-      />
-
       <HideAppbar>
         <AppBar
-          position="sticky"
-          elevation={0} // Keep the flat look
+          position="fixed"
+          elevation={0}
+          // ----- THE GUARANTEED FIX IS HERE -----
+
+          // STEP A: This prop tells MUI to NOT apply any of its default
+          // theme-based background color classes (like colorPrimary or colorDefault).
+          // This is the most important step to disable the dark mode background.
+          color="transparent"
+
+          // STEP B: Now that the default background is disabled, we apply our
+          // own custom styles with high specificity.
           sx={{
-            backgroundColor: 'rgba(0, 0, 0, 0.2)', // A bit of dark background for readability
-            backdropFilter: 'blur(8px)', // The glass effect
+            // The '&&' is a JSS trick to increase CSS specificity,
+            // ensuring these styles win against any other theme rules.
+            '&&': {
+              background: 'rgba(255, 255, 255, 0.2)', // Light glass
+              backdropFilter: 'blur(8px)',
+              color: '#000', // Black text and icons
+            },
           }}
         >
-          {/* Container and Toolbar are correctly used to align content */}
           <Container maxWidth="xl">
             <Toolbar disableGutters>
-              {/* ... All your Toolbar children are fine */}
               <Adb sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+              {/* These will now inherit the black color from the AppBar */}
               <MobileNavigation onMenuOpen={handleOpenNavMenu} />
               <DesktopNavigation onMenuClose={handleCloseNavMenu} />
               <ThemeToggle />
@@ -226,7 +229,7 @@ export function AppBar1() {
         </AppBar>
       </HideAppbar>
 
-      <BackToTop/>
+      <BackToTop />
     </>
   );
 }

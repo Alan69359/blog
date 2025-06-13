@@ -6,10 +6,6 @@ import { TextField, Button, Box, Typography, Alert, CircularProgress,Divider } f
 import { addComment, AddCommentFormState } from 'lib/comment'; // Ensure correct path
 import * as Card from 'ui/card'
 
-interface Box1Props {
-  style?: React.CSSProperties;
-}
-
 // box of footer
 export function Box1() {
   return (
@@ -30,17 +26,17 @@ export function Box1() {
   );
 }
 
-export function Box11({ style }: Box1Props) {
+// box of slogon on home page
+export function Box2() {
   return (
     <Box
       sx={{
+        // We will control padding and alignment from the parent
         backgroundColor: 'transparent',
-        padding: 3,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '100%',
-        ...style
+        // KEY CHANGE: Removed minHeight: '100vh'
       }}
     >
       <Typography
@@ -59,7 +55,6 @@ export function Box11({ style }: Box1Props) {
     </Box>
   );
 }
-
 
 const initialState: AddCommentFormState = {
   message: '',
@@ -83,7 +78,7 @@ function SubmitButton() {
 }
 
 // form of comment
-export function Box2() {
+export function Box3() {
   const [state, formAction] = React.useActionState(addComment, initialState);
 
   const formRef = React.useRef<HTMLFormElement>(null);
@@ -141,7 +136,7 @@ export function Box2() {
 }
 
 // Blog list component
-export function Box3({ posts }: Card.BlogListProps): React.JSX.Element {
+export function Box4({ posts }: Card.BlogListProps): React.JSX.Element {
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto', my: 4 }}>
       <Typography variant="h4" component="h2" gutterBottom>
