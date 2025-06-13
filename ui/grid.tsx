@@ -1,39 +1,33 @@
+// ui/grid.tsx
 "use client"
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+// The import is correct. The usage was the issue.
+import { Grid } from '@mui/material';
+
 import * as Card0 from '@/ui/card';
-import { Box3 } from '@/ui/box';
+import { Box4 } from '@/ui/box';
 
 export function Grid1({ posts }) {
   return (
-    <Box sx={{
-      backgroundColor: 'transparent',
-      width: '100%', // Ensure full width
-      margin: 0,     // Remove any margin
-      padding: 0     // Remove any padding
-    }}>
-      <Grid container spacing={2} sx={{
-        width: '100%',
-        margin: 0,
-        '& .MuiGrid-item': {
-          paddingLeft: '16px', // Add padding to grid items instead of margin
-          paddingRight: '16px'
-        }
-      }}>
-        <Grid size={8} sx={{
-          paddingTop: '32px',
-          paddingBottom: '32px'
-        }}>
-          <Box3 posts={posts} />
+    <Box sx={{ flexGrow: 1, width: '100%' }}>
+      {/* The container is defined with 12 columns by default */}
+      <Grid container spacing={{ xs: 2, md: 4 }}>
+
+        {/*
+          THE CORRECT GRID V2 SYNTAX:
+          We use the `sx` prop to define the column span for different breakpoints.
+          'gridColumn: "span 8"' means "this item should take up 8 columns".
+        */}
+        <Grid sx={{ gridColumn: { xs: 'span 12', md: 'span 8' } }}>
+          <Box4 posts={posts} />
         </Grid>
-        <Grid size="grow" sx={{
-          paddingTop: '32px',
-          paddingBottom: '32px'
-        }}>
-          <Card0.Card1/>
+
+        <Grid sx={{ gridColumn: { xs: 'span 12', md: 'span 4' } }}>
+          <Card0.Card3 />
         </Grid>
+
       </Grid>
     </Box>
   );

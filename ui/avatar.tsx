@@ -6,7 +6,12 @@ export default function Avatar1() {
     <Avatar
         alt="Avatar"
         src="/images/profile.jpg"
-        sx={{ width: 64, height: 64}}
+        sx={{ 
+          width: 64,
+          height: 64,
+          margin: '0 auto',
+          border: '2px solid white',
+        }}
     />
   );
 }

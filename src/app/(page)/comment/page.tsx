@@ -1,7 +1,7 @@
 // app/guestbook/page.tsx
 import { Box, Typography, Paper, List, ListItem, ListItemText, Divider, Container } from '@mui/material';
 import { getComments, Comment } from '@/lib/comment';
-import { Box2 } from '@/ui/box'; // Using the correct named import
+import { Box3 } from '@/ui/box'; // Using the correct named import
 
 export const dynamic = 'force-dynamic';
 
@@ -26,7 +26,7 @@ export default async function GuestbookPage() {
                 Guestbook
             </Typography>
 
-            <Box2 />
+            <Box3 />
 
             <Typography variant="h5" gutterBottom sx={{ mt: 4 }}>
                 Comments ({comments.length})

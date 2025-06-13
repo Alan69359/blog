@@ -93,18 +93,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <html lang="en">
-        <head>
-        </head>
+        <head></head>
         <body>
           <Background />
-          <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <Header />
-            <Box component="main" sx={{ flexGrow: 1 }}>
-              {children}
-            </Box>
-            <Live2DViewer/>
-            <Footer />
+          {/* KEY CHANGE: Removed the wrapping Box and flexbox styles */}
+          <Header />
+          <Box component="main">
+            {children}
           </Box>
+          <Live2DViewer />
+          <Footer />
         </body>
       </html>
     </ThemeProvider>
