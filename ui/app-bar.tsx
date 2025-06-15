@@ -5,7 +5,6 @@ import {
   AppBar,
   Box,
   Toolbar,
-  IconButton,
   Container,
   Button,
   InputBase,
@@ -15,19 +14,29 @@ import {
   useScrollTrigger
 } from '@mui/material';
 import {
-  Menu,
   Adb,
   Search,
   KeyboardArrowUp
 } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
-import ThemeToggle from '@/ui/tooltip';
+import ThemeToggle from 'ui/tooltip';
+import type { AppTheme } from 'lib/theme'; // Adjust path if necessary
 
+// --- UPDATED ---
+// We explicitly type the `theme` parameter using our imported `AppTheme`.
+const GlassAppBar = styled(AppBar)(({ theme }: { theme: AppTheme }) => ({
+  '&&': {
+    backdropFilter: 'blur(8px)',
+    boxShadow: 'none',
+    backgroundImage: 'none',
+    backgroundColor: theme.vars.palette.appBar.background,
+    color: theme.vars.palette.text.primary,
+  }
+}));
 const NAVIGATION_PAGES = [
   { name: 'Home', path: '/' },
   { name: 'Blog', path: '/blog' },
   { name: 'About', path: '/about' },
-  { name: 'Meme', path: '/meme' },
   { name: 'Comment', path: '/comment' },
 ];
 
@@ -38,19 +47,15 @@ interface ScrollComponentProps {
   children?: React.ReactElement;
 }
 
-const SearchContainer = styled('div')(({ theme }) => ({
+const SearchContainer = styled('div')(({ theme }: { theme: AppTheme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.text.primary, 0.05),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.text.primary, 0.1),
   },
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
+  marginLeft: theme.spacing(2),
+  width: 'auto',
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -81,7 +86,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function HideAppbar({ children }: ScrollComponentProps) {
   const trigger = useScrollTrigger();
-
   return (
     <Slide appear={false} direction="down" in={!trigger}>
       {children ?? <div />}
@@ -95,31 +99,16 @@ function BackToTop() {
     threshold: SCROLL_TRIGGER_THRESHOLD,
   });
 
-  const handleScrollToTop = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleScrollToTop = () => {
     if (typeof window !== 'undefined') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   return (
     <Fade in={trigger}>
-      {/*
-        The <Box> is now purely for positioning.
-        The onClick handler is moved to the <Fab> component where it belongs.
-      */}
-      <Box
-        role="presentation"
-        sx={{ position: 'fixed', bottom: 80, right: 16, zIndex: 100 }}
-      >
-        <Fab
-          size="small"
-          aria-label="scroll back to top"
-          color="primary"
-          onClick={handleScrollToTop} // <<< The onClick handler is now here
-        >
+      <Box role="presentation" sx={{ position: 'fixed', bottom: 80, right: 16, zIndex: 100 }}>
+        <Fab size="small" aria-label="scroll back to top" color="primary" onClick={handleScrollToTop}>
           <KeyboardArrowUp />
         </Fab>
       </Box>
@@ -127,56 +116,20 @@ function BackToTop() {
   );
 }
 
-// Search Component
 function SearchField() {
   return (
     <SearchContainer>
-      <SearchIconWrapper>
-        <Search />
-      </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search…"
-        inputProps={{ 'aria-label': 'search' }}
-      />
+      <SearchIconWrapper><Search /></SearchIconWrapper>
+      <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
     </SearchContainer>
   );
 }
 
-// Navigation Components
-function MobileNavigation({ onMenuOpen }: { onMenuOpen: (event: React.MouseEvent<HTMLElement>) => void }) {
+function DesktopNavigation() {
   return (
-    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-      <IconButton
-        size="large"
-        aria-label="account of current user"
-        aria-controls="menu-appbar"
-        aria-haspopup="true"
-        onClick={onMenuOpen}
-        color="inherit"
-      >
-        <Menu />
-      </IconButton>
-    </Box>
-  );
-}
-
-// And update DesktopNavigation to respect the new color
-function DesktopNavigation({ onMenuClose }: { onMenuClose: () => void }) {
-  return (
-    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+    <Box sx={{ flexGrow: 1, display: 'flex' }}>
       {NAVIGATION_PAGES.map((page) => (
-        <Button
-          key={page.name}
-          href={page.path}
-          onClick={onMenuClose}
-          sx={{
-            my: 2,
-            // The AppBar now sets the color to 'black', so the buttons
-            // can just inherit that color.
-            color: 'inherit',
-            display: 'block'
-          }}
-        >
+        <Button key={page.name} href={page.path} color="inherit" sx={{ my: 2, display: 'block' }}>
           {page.name}
         </Button>
       ))}
@@ -186,49 +139,19 @@ function DesktopNavigation({ onMenuClose }: { onMenuClose: () => void }) {
 
 // app bar of header
 export function AppBar1() {
-  const [anchorElNav, setAnchorElNav] = React.useState<HTMLElement | null>(null);
-
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => { /* ... */ };
-  const handleCloseNavMenu = () => { /* ... */ };
-
   return (
     <>
       <HideAppbar>
-        <AppBar
-          position="fixed"
-          elevation={0}
-          // ----- THE GUARANTEED FIX IS HERE -----
-
-          // STEP A: This prop tells MUI to NOT apply any of its default
-          // theme-based background color classes (like colorPrimary or colorDefault).
-          // This is the most important step to disable the dark mode background.
-          color="transparent"
-
-          // STEP B: Now that the default background is disabled, we apply our
-          // own custom styles with high specificity.
-          sx={{
-            // The '&&' is a JSS trick to increase CSS specificity,
-            // ensuring these styles win against any other theme rules.
-            '&&': {
-              background: 'rgba(255, 255, 255, 0.2)', // Light glass
-              backdropFilter: 'blur(8px)',
-              color: '#000', // Black text and icons
-            },
-          }}
-        >
+        <GlassAppBar position="fixed" elevation={0} color="inherit">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
-              <Adb sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-              {/* These will now inherit the black color from the AppBar */}
-              <MobileNavigation onMenuOpen={handleOpenNavMenu} />
-              <DesktopNavigation onMenuClose={handleCloseNavMenu} />
-              <ThemeToggle />
+              <DesktopNavigation />
+              <ThemeToggle color="inherit" />
               <SearchField />
             </Toolbar>
           </Container>
-        </AppBar>
+        </GlassAppBar>
       </HideAppbar>
-
       <BackToTop />
     </>
   );

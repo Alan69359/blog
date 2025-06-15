@@ -1,34 +1,32 @@
-// ui/grid.tsx
 "use client"
 
 import * as React from 'react';
-import Box from '@mui/material/Box';
-// The import is correct. The usage was the issue.
-import { Grid } from '@mui/material';
+import { Box } from '@mui/material';
 
 import * as Card0 from '@/ui/card';
 import { Box4 } from '@/ui/box';
 
 export function Grid1({ posts }) {
   return (
-    <Box sx={{ flexGrow: 1, width: '100%' }}>
-      {/* The container is defined with 12 columns by default */}
-      <Grid container spacing={{ xs: 2, md: 4 }}>
+    // 1. THE MAIN CONTAINER: A flexbox row.
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: { xs: 'center', md: 'flex-start' }, // Top-align on desktop
+        gap: { xs: 4, md: 4 }, // The space between the two items
+      }}
+    >
+      <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Box4 posts={posts} />
+      </Box>
 
-        {/*
-          THE CORRECT GRID V2 SYNTAX:
-          We use the `sx` prop to define the column span for different breakpoints.
-          'gridColumn: "span 8"' means "this item should take up 8 columns".
-        */}
-        <Grid sx={{ gridColumn: { xs: 'span 12', md: 'span 8' } }}>
-          <Box4 posts={posts} />
-        </Grid>
+      {/* 
+        3. RIGHT COLUMN (Profile Card): This is not wrapped.
+        As a direct child of the flex container, it will take up only its
+        natural width, and will not grow or shrink. This is exactly what we want.
+      */}
+      <Card0.Card3 />
 
-        <Grid sx={{ gridColumn: { xs: 'span 12', md: 'span 4' } }}>
-          <Card0.Card3 />
-        </Grid>
-
-      </Grid>
     </Box>
   );
 }
