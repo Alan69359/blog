@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
   Card,
-  CardActions,
   CardContent,
   Button,
   Typography,
@@ -14,42 +13,6 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import Avatar1 from 'ui/avatar';
-
-// Profile card component
-export function Card1() {
-  const postCount = 2;
-  const tagCount = 0;
-
-  return (
-    <Card sx={{ margin: '32px' }}>
-      <CardContent sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Avatar1 />
-      </CardContent>
-
-      <CardContent sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Box sx={{ margin: '8px', textAlign: 'center' }}>
-          <Typography>
-            Post<br />{postCount}
-          </Typography>
-        </Box>
-        <Box sx={{ margin: '8px', textAlign: 'center' }}>
-          <Typography>
-            Tag<br />{tagCount}
-          </Typography>
-        </Box>
-      </CardContent>
-
-      <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Button href="https://github.com/Alan69359">
-          <GitHubIcon />
-        </Button>
-        <Button href="https://www.linkedin.com/in/ngai-kam-lun-a02a61174/">
-          <LinkedInIcon />
-        </Button>
-      </CardActions>
-    </Card>
-  );
-}
 
 // Type definitions
 export interface PostData {
@@ -85,7 +48,13 @@ const formatPostDate = (dateString: string): React.ReactNode => {
 
 // Blog post card component
 export const Card2: React.FC<{ post: PostData }> = ({ post }) => (
-  <Card sx={{ mb: 3 }}>
+  <Card sx={{
+    mb: 3,
+    background: 'rgba(255, 255, 255, 0.2)', // Semi-transparent white
+    backdropFilter: 'blur(10px)', // The frosted glass effect
+  }
+}
+  >
     <Link href={`/blog/${post.slug}`}>
       <CardContent>
         <Typography variant="h5" component="h3" gutterBottom>
@@ -127,10 +96,10 @@ export function Card3 () {
       <CardContent sx={{ padding: 0 }}>
         <Avatar1/>
         <Typography variant="h5" component="div" sx={{ mt: 2, fontWeight: 'bold' }}>
-          Jane Doe
+          Alan Ngai
         </Typography>
         <Typography sx={{ mb: 1.5, color: 'rgba(255, 255, 255, 0.8)' }}>
-          Frontend Developer
+          Software Engineer
         </Typography>
         <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.9)' }}>
           Crafting beautiful and functional web experiences with React, Next.js, and a cup of coffee.
@@ -139,10 +108,10 @@ export function Card3 () {
 
       <Box>
         <Box sx={{ my: 2 }}>
-          <IconButton href="#" sx={{ color: 'white' }}>
+          <IconButton href="https://github.com/Alan69359" sx={{ color: 'white' }}>
             <GitHubIcon />
           </IconButton>
-          <IconButton href="#" sx={{ color: 'white' }}>
+          <IconButton href="https://www.linkedin.com/in/ngai-kam-lun-a02a61174/" sx={{ color: 'white' }}>
             <LinkedInIcon />
           </IconButton>
           <IconButton href="#" sx={{ color: 'white' }}>

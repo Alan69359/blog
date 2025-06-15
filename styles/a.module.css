@@ -40,12 +40,14 @@
 
 .book {
     display: flex;
-    width: 90vw;
-    max-width: 900px;
-    /* Adjust max width as needed */
+    /* This makes the book flexible, based on its parent's size */
+    width: 100%;
+    /* This is the crucial part: it prevents the book from EVER being
+       wider than the grid column it is placed in. */
+    max-width: 100%;
+
     height: 600px;
     position: relative;
-    /* Set the perspective on the book itself */
     perspective: 2000px;
 }
 

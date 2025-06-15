@@ -1,110 +1,69 @@
-// // src/app/layout.tsx
-// 'use client';
+// layout.tsx
 
-// import "styles/global.css";
-// import Header from 'src/app/layout/header';
-// import Footer from "src/app/layout/footer";
-// import * as React from 'react';
-// import { ThemeProvider } from '@mui/material/styles';
-// import CssBaseline from '@mui/material/CssBaseline';
-// import Box from '@mui/material/Box';
-// import { styled } from '@mui/material/styles';
-// import { theme } from 'lib/theme';
-// import dynamic from 'next/dynamic';
-// import Script from 'next/script';
-
-// const Live2dWidget = dynamic(() => import('lib/Live2dWidget'), {
-//   ssr: false,
-// });
-
-// const Background = styled(Box)({ /* ... your styles ... */ });
-
-// export default function RootLayout({ children }: { children: React.ReactNode }) {
-//   const modelUrl = "https://cdn.jsdelivr.net/gh/guansss/pixi-live2d-display/test/assets/mao/mao.model3.json";
-  
-
-//   return (
-//     <ThemeProvider theme={theme}>
-//       <CssBaseline />
-//       <html lang="en">
-//         <head>
-//           <Script
-//             src="/live2d/CubismSdkForWeb-5-r.4/Core/live2dcubismcore.js"
-//             strategy="beforeInteractive"
-//           />
-//         </head>
-//         <body>
-//           <Background />
-//           <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-//             <Header />
-//             <Box component="main" sx={{ flexGrow: 1 }}>
-//               {children}
-//             </Box>
-//             <Footer />
-//           </Box>
-//           <Live2dWidget modelUrl={modelUrl} />
-//         </body>
-//       </html>
-//     </ThemeProvider>
-//   );
-// }
-
-// src/app/layout.tsx
 'use client';
 
 import "styles/global.css";
-import Header from 'src/app/layout/header';
-import Footer from "src/app/layout/footer";
 import * as React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import { theme } from 'lib/theme';
-import Live2DViewer from "@/lib/Live2DViewer";
+import { AppBar1 } from "ui/app-bar";
+import { Box1 } from 'ui/box';
 
-const Background = styled(Box)({
+function Header() {
+  return (<AppBar1 />);
+}
+
+function Footer() {
+  return (<Box1 />);
+}
+
+const Background = styled(Box)(({ theme }) => ({
   position: 'fixed',
   top: 0,
   left: 0,
-  width: '100vw',
-  height: '100vh',
-  backgroundImage: "url('/images/wallpaper.jpg')", // Ensure public/images/wallpaper.jpg exists
+  width: '100%',
+  height: '100%',
+  zIndex: -1,
+
+  backgroundImage: "url('/images/wallpaper.jpg')",
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-  zIndex: -1,
-  transition: 'filter 0.3s ease-in-out',
-  filter: 'brightness(100%)', // Default for light mode
 
-  // This selector targets an ancestor with data-mui-color-scheme="dark"
-  // and applies the style to the current element (&).
-  '[data-mui-color-scheme="dark"] &': {
-    filter: 'brightness(50%)', // Dimmer for dark mode
-  },
-  // You can also be explicit for light mode if you ever need to override something
-  // '[data-mui-color-scheme="light"] &': {
-  //   filter: 'brightness(100%)',
-  // },
-});
+  // --- THE FINAL FIX IS HERE ---
+  // Add the '!' non-null assertion operator to tell TypeScript that 'vars' will always exist.
+  filter: theme.vars!.palette.appBackground.imageFilter,
+
+  transition: 'filter 0.3s ease-in-out',
+}));
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <html lang="en">
-        <head></head>
-        <body>
+    <html lang="en">
+      <body>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+
           <Background />
-          {/* KEY CHANGE: Removed the wrapping Box and flexbox styles */}
-          <Header />
-          <Box component="main">
-            {children}
+
+          <Box sx={{
+            position: 'relative',
+            zIndex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100vh'
+          }}>
+            <Header />
+            <Box component="main" sx={{ flexGrow: 1 }}>
+              {children}
+            </Box>
+            <Footer />
           </Box>
-          <Live2DViewer />
-          <Footer />
-        </body>
-      </html>
-    </ThemeProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
