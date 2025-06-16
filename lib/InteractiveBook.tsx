@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { List, ListItemButton, ListItemText, Typography, Divider, Box } from '@mui/material';
 import Link from 'next/link';
-import { type PostSummary } from '@/lib/posts';
+import { type PostSummary } from 'lib/posts';
 
 // This is just the visual component for the cover's title
 const CoverTitle = () => (
@@ -35,9 +35,13 @@ export default function InteractiveBook({ posts }: { posts: PostSummary[] }) {
             onClick={!isOpen ? handleOpenBook : undefined}
             sx={{
                 position: 'relative',
-                width: '90%',
+
+                width: '40vh',
+                height: '70vh',
+
+                // Set maximums to prevent it from getting too big on large screens
                 maxWidth: '400px',
-                height: '600px',
+                maxHeight: '600px',
                 cursor: isOpen ? 'default' : 'pointer',
             }}
         >

@@ -1,28 +1,47 @@
-// src/app/page.tsx (Server Component)
+// src/app/page.tsx
 
 import { getSortedPostsData } from 'lib/posts';
-import InteractiveBook from 'lib/InteractiveBook'; // Import our new component
+import InteractiveBook from 'lib/InteractiveBook';
 import { Box } from '@mui/material';
-import { Image2 } from 'lib/image';
 
 export default async function BlogPage() {
-    // 1. Fetch data on the server
     const allPosts = await getSortedPostsData();
 
-    // 2. Render a simple layout wrapper
     return (
-        <>
-            <Image2 />
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                minHeight: 'calc(100vh - 200px)', // Adjust height to roughly center the book
-                py: 4,
-            }}>
-                {/* 3. Pass the server-fetched data to the client component */}
-                <InteractiveBook posts={allPosts} />
-            </Box>
-        </>
+        // VVV THIS IS THE NEW, UNIFIED CONTAINER VVV
+        <Box sx={{
+            // 1. This tells the component to grow and fill the <main> area.
+            flexGrow: 1,
+            position: 'relative', // This is the anchor for our background.
+
+            // 2. These styles center the InteractiveBook.
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+
+            // 3. This is a crucial property for robust z-index layering.
+            isolation: 'isolate',
+
+            // 4. We create the background using a CSS pseudo-element.
+            '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+
+                // Your background styles are applied here
+                backgroundImage: 'url(/images/wallpaper2.jpg)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+
+                // This places the background behind the content of THIS box.
+                zIndex: -1,
+            },
+        }}>
+            {/* The InteractiveBook is now the only direct child, making centering simple. */}
+            <InteractiveBook posts={allPosts} />
+        </Box>
     );
 }

@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import { theme } from 'lib/theme';
 import { AppBar1 } from "ui/app-bar";
 import { Box1 } from 'ui/box';
+import Live2DViewer from "lib/Live2DViewer";
 
 function Header() {
   return (<AppBar1 />);
@@ -31,16 +32,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             display: 'flex',
             flexDirection: 'column',
             minHeight: '100vh',
-            // Default background for all pages that AREN'T the homepage
-            bgcolor: 'background.default',
+            bgcolor: 'transparent',
           }}>
             <Header />
             <Box
               component="main"
               sx={{
+                // VVV THIS IS THE FIX VVV
+                // The <main> area's only job is to grow and be a flex container for its children.
+                // We remove the centering logic from here.
                 flexGrow: 1,
-                // The main content area no longer needs padding.
-                // The Container in page.tsx will handle content spacing.
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
               {children}
