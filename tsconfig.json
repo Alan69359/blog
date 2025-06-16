@@ -8,12 +8,7 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/lib/*":["./lib/*"],
-      "@/src/*":["./src/*"],
-      "@/styles/*":["./styles/*"],
-      "@/submodules/*":["./submodules/*"],
-      "@/ui/*": ["./ui/*"],
-      "@/database/*": ["./database/*"],
+      
     },
     "allowJs": true,
     "skipLibCheck": true,
