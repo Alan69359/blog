@@ -1,105 +1,208 @@
-// src/components/InteractiveBook.tsx
-'use client';
+// lib/InteractiveBook.tsx
+"use client";
 
-import React, { useState } from 'react';
-import { List, ListItemButton, ListItemText, Typography, Divider, Box } from '@mui/material';
-import Link from 'next/link';
-import { type PostSummary } from 'lib/posts';
+import React, { useState } from "react";
+import {
+  List,
+  ListItemButton,
+  ListItemText,
+  Typography,
+  Box,
+} from "@mui/material";
+import Link from "next/link";
+import { type PostSummary } from "lib/posts";
 
-// This is just the visual component for the cover's title
+const styles = {
+  // This is now the root style for the component.
+  // It defines the size of the book itself.
+  mainContainer: {
+    "@keyframes flip-and-fade-out": {
+      "0%": { transform: "rotateX(0deg)", opacity: 1 },
+      "50%": { transform: "rotateX(180deg)", opacity: 1 },
+      "100%": {
+        transform: "rotateX(360deg)",
+        opacity: 0,
+        pointerEvents: "none",
+      },
+    },
+    position: "relative",
+    width: "40vh",
+    height: "70vh",
+    maxWidth: "400px",
+    maxHeight: "600px",
+    perspective: "1500px",
+  },
+  contentPage: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#fbfaf5",
+    border: "3px solid #3e2723",
+    borderRadius: "8px",
+    padding: "1rem",
+    color: "#444",
+    zIndex: 2,
+    display: "flex",
+    flexDirection: "column",
+  },
+  contentPageTitle: {
+    textAlign: "center",
+    mb: 2,
+    fontFamily: '"Yuji Syuku", serif',
+    flexShrink: 0,
+  },
+  postList: {
+    overflowY: "auto",
+    "&::-webkit-scrollbar": { width: "8px" },
+    "&::-webkit-scrollbar-track": { backgroundColor: "#fdfaf5" },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#d3c3a7",
+      borderRadius: "4px",
+    },
+  },
+  postListItem: {
+    textAlign: "right",
+    "&:hover": { backgroundColor: "rgba(211, 195, 167, 0.2)" },
+  },
+  postListItemText: {
+    "& .MuiListItemText-primary": {
+      fontFamily: '"Yuji Syuku", serif',
+      fontSize: "1.2rem",
+      color: "#3e2723",
+    },
+  },
+  coverContainer: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    zIndex: 3,
+    transformStyle: "preserve-3d",
+    transformOrigin: "top center",
+    animation: "flip-and-fade-out 1.5s ease-in-out forwards",
+  },
+  coverFace: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#385145",
+    border: "3px solid #3e2723",
+    borderRadius: "8px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backfaceVisibility: "hidden",
+  },
+  coverFaceFront: {
+    boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+  },
+  coverBinding: {
+    position: "absolute",
+    top: "1.5rem",
+    left: "50%",
+    transform: "translateX(-50%)",
+    width: "calc(100% - 4rem)",
+    height: "0.25rem",
+    backgroundColor: "#c62828",
+    "&::before, &::after": {
+      content: '""',
+      position: "absolute",
+      top: "50%",
+      transform: "translateY(-50%)",
+      width: "1rem",
+      height: "1rem",
+      borderRadius: "50%",
+      backgroundColor: "#1a2e24",
+      border: "2px solid #3e2723",
+    },
+    "&::before": { left: "2rem" },
+    "&::after": { right: "2rem" },
+  },
+  coverTitleBox: {
+    backgroundColor: "#fdfaf5",
+    padding: "1rem 0.5rem",
+    border: "1px solid #d3c3a7",
+    boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+    height: "250px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  coverTitleText: {
+    fontFamily: '"Yuji Syuku", serif',
+    fontSize: "2.5rem",
+    color: "black",
+    writingMode: "vertical-rl",
+    textOrientation: "mixed",
+    letterSpacing: "0.5rem",
+  },
+  // The problematic box1 style is now completely removed.
+} as const;
+
 const CoverTitle = () => (
-    <Box sx={{
-        backgroundColor: '#fdfaf5', padding: '1rem 0.5rem', border: '1px solid #d3c3a7',
-        boxShadow: '0 2px 5px rgba(0,0,0,0.1)', height: '250px',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-    }}>
-        <Typography sx={{
-            fontFamily: '"Yuji Syuku", serif', fontSize: '2.5rem', color: 'black',
-            writingMode: 'vertical-rl', textOrientation: 'mixed', letterSpacing: '0.5rem',
-        }}>
-            友人帳
-        </Typography>
-    </Box>
+  <Box sx={styles.coverTitleBox}>
+    <Typography sx={styles.coverTitleText}>友人帳</Typography>
+  </Box>
 );
 
 export default function InteractiveBook({ posts }: { posts: PostSummary[] }) {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-    const handleOpenBook = () => {
-        setIsOpen(true);
-    };
+  const handleOpenBook = () => {
+    if (!isOpen) setIsOpen(true);
+  };
 
-    return (
-        // This is the main book container.
-        <Box
-            onClick={!isOpen ? handleOpenBook : undefined}
-            sx={{
-                position: 'relative',
-
-                width: '40vh',
-                height: '70vh',
-
-                // Set maximums to prevent it from getting too big on large screens
-                maxWidth: '400px',
-                maxHeight: '600px',
-                cursor: isOpen ? 'default' : 'pointer',
-            }}
-        >
-            {/* Layer 1: The Cover Page - (no changes) */}
-            <Box
-                sx={{
-                    position: 'absolute', width: '100%', height: '100%',
-                    backgroundColor: '#385145', border: '3px solid #3e2723',
-                    borderRadius: '8px', boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    transition: 'opacity 0.5s ease-out',
-                    opacity: isOpen ? 0 : 1,
-                    pointerEvents: isOpen ? 'none' : 'auto',
-                }}
+  // THE FIX: The root element is now the book's main container.
+  // The outer wrapper <Box sx={styles.box1}> has been REMOVED.
+  return (
+    <Box
+      onClick={handleOpenBook}
+      sx={[styles.mainContainer, { cursor: isOpen ? "default" : "pointer" }]}
+    >
+      <Box
+        sx={[
+          styles.contentPage,
+          {
+            opacity: isOpen ? 1 : 0,
+            pointerEvents: isOpen ? "auto" : "none",
+          },
+        ]}
+      >
+        <Typography variant="h5" component="h2" sx={styles.contentPageTitle}>
+          目次
+        </Typography>
+        <List sx={styles.postList}>
+          {posts.map((post) => (
+            <ListItemButton
+              key={post.slug}
+              component={Link}
+              href={`/blog/${post.slug}`}
+              sx={styles.postListItem}
             >
-                {/* The red binding only appears on the front */}
-                <Box sx={{
-                    position: 'absolute', top: '1.5rem', left: '50%', transform: 'translateX(-50%)',
-                    width: 'calc(100% - 4rem)', height: '0.25rem', backgroundColor: '#c62828',
-                    '&::before, &::after': {
-                        content: '""', position: 'absolute', top: '50%', transform: 'translateY(-50%)',
-                        width: '1rem', height: '1rem', borderRadius: '50%', backgroundColor: '#1a2e24',
-                        border: '2px solid #3e2723',
-                    },
-                    '&::before': { left: '2rem' },
-                    '&::after': { right: '2rem' },
-                }} />
-                <CoverTitle />
-            </Box>
+              <ListItemText
+                primary={post.title}
+                sx={styles.postListItemText}
+              />
+            </ListItemButton>
+          ))}
+        </List>
+      </Box>
 
-            {/* Layer 2: The Content Page */}
-            <Box
-                sx={{
-                    position: 'absolute', width: '100%', height: '100%',
-                    backgroundColor: '#fbfaf5', border: '3px solid #3e2723',
-                    borderRadius: '8px', padding: '1rem', color: '#444',
-                    transition: 'opacity 0.5s ease-in',
-                    opacity: isOpen ? 1 : 0,
-                    pointerEvents: isOpen ? 'auto' : 'none',
-                }}
-            >
-                {/*
-                    VVV THIS IS THE CHANGE VVV
-                    The decorative Box that created the ruled lines has been completely removed.
-                */}
-
-                {/* The List of posts now fills the entire content area directly. */}
-                <List sx={{ width: '100%', height: '100%', overflowY: 'auto' }}>
-                    {posts.map(({ slug, title, date }) => (
-                        <ListItemButton key={slug} component={Link} href={`/posts/${slug}`}>
-                            <ListItemText
-                                primary={<Typography variant="h6" component="span" sx={{ fontFamily: 'serif' }}>{title}</Typography>}
-                                secondary={new Date(date).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}
-                            />
-                        </ListItemButton>
-                    ))}
-                </List>
-            </Box>
+      <Box
+        sx={[
+          styles.coverContainer,
+          { animationPlayState: isOpen ? "running" : "paused" },
+        ]}
+      >
+        <Box sx={[styles.coverFace, styles.coverFaceFront]}>
+          <Box sx={styles.coverBinding} />
+          <CoverTitle />
         </Box>
-    );
+        <Box sx={[styles.coverFace, { transform: "rotateX(180deg)" }]}>
+          <Typography variant="caption" sx={{ color: "#aaa" }}>
+            The inside cover...
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
 }

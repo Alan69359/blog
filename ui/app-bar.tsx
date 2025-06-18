@@ -14,7 +14,6 @@ import {
   useScrollTrigger
 } from '@mui/material';
 import {
-  Adb,
   Search,
   KeyboardArrowUp
 } from '@mui/icons-material';
@@ -22,8 +21,6 @@ import { styled, alpha } from '@mui/material/styles';
 import ThemeToggle from 'ui/tooltip';
 import type { AppTheme } from 'lib/theme'; // Adjust path if necessary
 
-// --- UPDATED ---
-// We explicitly type the `theme` parameter using our imported `AppTheme`.
 const GlassAppBar = styled(AppBar)(({ theme }: { theme: AppTheme }) => ({
   '&&': {
     backdropFilter: 'blur(8px)',

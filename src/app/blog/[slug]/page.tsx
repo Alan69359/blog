@@ -1,6 +1,6 @@
 // src/app/posts/[slug]/page.tsx
 
-import { getPostData, getAllPostSlugs } from "@/lib/posts"; // Using the '@/' alias is common
+import { getPostData, getAllPostSlugs } from "lib/posts"; // Using the '@/' alias is common
 import { notFound } from "next/navigation";
 import { Typography, Box } from '@mui/material'; // Let's use MUI components!
 

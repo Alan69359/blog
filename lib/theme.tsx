@@ -1,22 +1,24 @@
-// lib/theme.ts
-import { extendTheme } from "@mui/material/styles";
+import { createTheme, extendTheme } from '@mui/material/styles';
 
-// --- THIS IS THE CORRECT MODULE AUGMENTATION ---
-// We are telling TypeScript that the 'Palette' itself can contain our custom object.
+// --- Augment the module to add our custom properties ---
 declare module "@mui/material/styles" {
   interface Palette {
     appBar: {
       background: string;
     };
-    // Add our custom object to the Palette interface
     appBackground: {
       imageFilter: string;
     };
+    glassy: {
+      background: string;
+    };
   }
 
-  // Also add it to the PaletteOptions for use in extendTheme
   interface PaletteOptions {
     appBar?: {
+      background?: string;
+    };
+    glassy?: {
       background?: string;
     };
     appBackground?: {
@@ -25,11 +27,14 @@ declare module "@mui/material/styles" {
   }
 }
 
+// --- Create the theme object ---
 export const theme = extendTheme({
   cssVarPrefix: "my-app",
+  typography: {
+    fontFamily: 'var(--font-roboto)',
+  },
   colorSchemes: {
     light: {
-      // --- DEFINE CUSTOM VALUES INSIDE THE PALETTE ---
       palette: {
         primary: { main: "#1976d2" },
         background: { default: "#f5f5f5", paper: "#ffffff" },
@@ -37,14 +42,15 @@ export const theme = extendTheme({
         appBar: {
           background: "rgba(255, 255, 255, 0.65)",
         },
-        // Our custom value now lives here, as a sibling to 'primary', 'background', etc.
         appBackground: {
           imageFilter: "brightness(110%)",
+        },
+        glassy: {
+          background: "rgba(255, 255, 255, 0.65)",
         },
       },
     },
     dark: {
-      // --- DEFINE CUSTOM VALUES INSIDE THE PALETTE ---
       palette: {
         primary: { main: "#90caf9" },
         background: { default: "#121212", paper: "#1e1e1e" },
@@ -52,9 +58,11 @@ export const theme = extendTheme({
         appBar: {
           background: "rgba(18, 18, 18, 0.5)",
         },
-        // The dark mode version of our custom value lives here.
         appBackground: {
           imageFilter: "brightness(60%)",
+        },
+        glassy: {
+          background: "rgba(18, 18, 18, 0.5)",
         },
       },
     },
@@ -69,4 +77,5 @@ export const theme = extendTheme({
   },
 });
 
+// --- Export a type alias for our custom theme ---
 export type AppTheme = typeof theme;

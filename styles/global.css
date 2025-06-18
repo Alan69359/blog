@@ -18,3 +18,10 @@ canvas {
 canvas .live2d-display {
   pointer-events: auto;
 }
+
+body {
+  height: 100%;
+  /* This is the foundational fix */
+  margin: 0;
+  padding: 0;
+}

@@ -31,7 +31,7 @@ const waitFor = (condition: () => boolean): Promise<void> => {
     });
 };
 
-const Live2DViewer = () => {
+export default function Live2DViewer () {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -106,10 +106,8 @@ const Live2DViewer = () => {
                 bottom: 0,
                 width: '100vw',
                 height: '100vh',
-                pointerEvents: 'none',
+                zIndex: 3, // <-- ADD THIS LINE
             }}
         />
     );
 };
-
-export default Live2DViewer;
