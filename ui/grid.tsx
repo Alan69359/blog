@@ -3,8 +3,8 @@
 import * as React from 'react';
 import { Box } from '@mui/material';
 
-import * as Card0 from '@/ui/card';
-import { Box4 } from '@/ui/box';
+import * as Card0 from 'ui/card';
+import { Box4 } from 'ui/box';
 
 export function Grid1({ posts }) {
   return (

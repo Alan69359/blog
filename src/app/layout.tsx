@@ -1,56 +1,63 @@
-// layout.tsx
+// src/app/layout.tsx
 
 'use client';
 
 import "styles/global.css";
 import * as React from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
+import { AppBar1 } from "ui/app-bar"; // Your Header
+import { Box1 } from 'ui/box';      // Your Footer
+import { ThemeProvider } from '@mui/material/styles';
 import { theme } from 'lib/theme';
-import { AppBar1 } from "ui/app-bar";
-import { Box1 } from 'ui/box';
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import CssBaseline from '@mui/material/CssBaseline';
 import Live2DViewer from "lib/Live2DViewer";
 
-function Header() {
-  return (<AppBar1 />);
-}
-
-function Footer() {
-  return (<Box1 />);
-}
+// The global background should be placed here if it applies to EVERY page.
+// Let's assume you'll add it to specific pages for now to avoid confusion.
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Box sx={{
-            position: 'relative',
-            zIndex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: '100vh',
-            bgcolor: 'transparent',
-          }}>
-            <Header />
+        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+
+            {/* THE STICKY FOOTER CONTAINER */}
+            <Live2DViewer/>
             <Box
-              component="main"
               sx={{
-                // VVV THIS IS THE FIX VVV
-                // The <main> area's only job is to grow and be a flex container for its children.
-                // We remove the centering logic from here.
-                flexGrow: 1,
                 display: 'flex',
                 flexDirection: 'column',
+                // This is the key: The layout is AT LEAST the height of the screen.
+                // It can grow taller if the content is long, allowing scrolling.
+                minHeight: '100vh',
               }}
             >
-              {children}
+              {/* Header is a normal element, it will scroll. */}
+              <AppBar1 />
+
+              {/* 
+                This is the main content area. It MUST be a flex container
+                so that its children can use flex-grow.
+              */}
+              <Box
+                component="main"
+                sx={{
+                  flexGrow: 1, // THE MAGIC: This pushes the footer down.
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                {children}
+              </Box>
+
+              {/* Footer is a normal element, sticky due to the flex layout. */}
+              <Box1 />
             </Box>
-            <Footer />
-          </Box>
-        </ThemeProvider>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

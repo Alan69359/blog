@@ -2,27 +2,31 @@
 
 import * as React from 'react';
 import { useFormStatus } from 'react-dom';
-import { TextField, Button, Box, Typography, Alert, CircularProgress,Divider } from '@mui/material';
+import { TextField, Button, Box, Typography, Alert, CircularProgress, Divider } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import type { AppTheme } from 'lib/theme';
 import { addComment, AddCommentFormState } from 'lib/comment'; // Ensure correct path
 import * as Card from 'ui/card'
+
+// By using `styled`, we can correctly type the theme object.
+const FooterContainer = styled('footer')(({ theme }: { theme: AppTheme }) => ({
+  paddingTop: theme.spacing(2),
+  paddingBottom: theme.spacing(2),
+  paddingLeft: theme.spacing(2),
+  paddingRight: theme.spacing(2),
+  backgroundColor: theme.vars.palette.glassy.background,
+  backdropFilter: 'blur(8px)',
+}));
+
 
 // box of footer
 export function Box1() {
   return (
-    <Box
-      component="footer"
-      sx={{
-        py: 2, // Use theme spacing for padding
-        px: 2,
-        // mt: 'auto' is no longer needed here because the parent flex container handles it.
-        backgroundColor: 'rgba(0, 0, 0, 0.2)', // Match the header style
-        backdropFilter: 'blur(8px)',
-      }}
-    >
+    <FooterContainer>
       <Typography variant="body2" align="center" color="text.secondary">
         © 2025 Alan69359. All rights reserved.
       </Typography>
-    </Box>
+    </FooterContainer>
   );
 }
 

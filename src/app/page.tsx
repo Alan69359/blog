@@ -3,8 +3,9 @@
 import { getSortedPostsData } from 'lib/posts';
 import { Grid1 } from "ui/grid";
 import { Box2 } from 'ui/box';
-import { Box, Container } from '@mui/material';
-import { Image1 } from 'lib/image'; // Assuming you created this from the last step
+import { Box } from '@mui/material';
+import { Background1 } from 'styles/client';
+import { SloganWrapper, PostsGridWrapper } from 'styles/client';
 
 type PostSummary = {
   slug: string;
@@ -12,35 +13,19 @@ type PostSummary = {
   title: string;
 };
 
-// 3. Update the type assertion to use the correct type.
-//    Now, what the function returns matches what you say it is.
-const allPostsData = (await getSortedPostsData()) as PostSummary[];
-
 export default async function Home() {
+  const allPostsData = (await getSortedPostsData()) as PostSummary[];
+
   return (
     <>
-      <Image1 />
-
+      <Background1 />
       <Box>
-        <Box
-          sx={{
-            minHeight: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <SloganWrapper>
           <Box2 />
-        </Box>
-
-        <Container maxWidth="lg" sx={{ py: 6 }}>
-          {/* 
-            The Grid1 component likely expects a 'posts' prop. 
-            Make sure its own internal type definition also matches PostSummary.
-            If you get an error on the line below, you'll need to update the types inside `ui/grid.tsx`.
-          */}
+        </SloganWrapper>
+        <PostsGridWrapper>
           <Grid1 posts={allPostsData} />
-        </Container>
+        </PostsGridWrapper>
       </Box>
     </>
   );
