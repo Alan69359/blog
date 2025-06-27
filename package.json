@@ -22,6 +22,7 @@
     "@types/react-dom": "^19.1.5",
     "class-variance-authority": "^0.7.1",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.18.1",
     "gray-matter": "^4.0.3",
     "live2d-widget-model-rem": "^1.0.1",
     "lottie-react": "^2.4.1",
@@ -30,6 +31,7 @@
     "pixi.js": "^6.5.10",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-intersection-observer": "^9.16.0",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "zod": "^3.25.56"

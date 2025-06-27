@@ -8,16 +8,26 @@ import type { AppTheme } from 'lib/theme';
 import { addComment, AddCommentFormState } from 'lib/comment'; // Ensure correct path
 import * as Card from 'ui/card'
 
-// By using `styled`, we can correctly type the theme object.
-const FooterContainer = styled('footer')(({ theme }: { theme: AppTheme }) => ({
-  paddingTop: theme.spacing(2),
-  paddingBottom: theme.spacing(2),
+// --- THE FIX ---
+// Remove the explicit type annotation from the theme argument.
+// Let MUI's `styled` utility infer the type of `theme`.
+const FooterContainer = styled('footer')(({ theme }) => ({
+  // Apply the ENTIRE toolbar mixin object.
+  ...theme.mixins.toolbar,
+
+  // Use flexbox to center the content vertically
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+  // Keep horizontal padding
   paddingLeft: theme.spacing(2),
   paddingRight: theme.spacing(2),
-  backgroundColor: theme.vars.palette.glassy.background,
+
+  // Your existing visual styles
+  backgroundColor: (theme.vars ?? theme).palette.glassy.background, // Make it robust for themes with/without CSS vars
   backdropFilter: 'blur(8px)',
 }));
-
 
 // box of footer
 export function Box1() {
