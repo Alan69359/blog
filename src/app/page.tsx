@@ -4,7 +4,7 @@ import { getSortedPostsData } from 'lib/posts';
 import { Grid1 } from "ui/grid";
 import { Box2 } from 'ui/box';
 import { Box } from '@mui/material';
-import { Background1 } from 'styles/client';
+import { StyledPageBackground } from 'styles/client';
 import { SloganWrapper, PostsGridWrapper } from 'styles/client';
 
 type PostSummary = {
@@ -18,7 +18,7 @@ export default async function Home() {
 
   return (
     <>
-      <Background1 />
+      <StyledPageBackground imageUrl='/images/wallpaper1.jpg' />
       <Box>
         <SloganWrapper>
           <Box2 />

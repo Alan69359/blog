@@ -1,37 +1,44 @@
 // lib/InteractiveBook.tsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   List,
   ListItemButton,
   ListItemText,
   Typography,
   Box,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import Link from "next/link";
 import { type PostSummary } from "lib/posts";
+import SearchIcon from "@mui/icons-material/Search";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 
+// The styles object for the component.
+// We no longer need CSS keyframe animations.
 const styles = {
-  // This is now the root style for the component.
-  // It defines the size of the book itself.
+  // Styles for the sticky book container
   mainContainer: {
-    "@keyframes flip-and-fade-out": {
-      "0%": { transform: "rotateX(0deg)", opacity: 1 },
-      "50%": { transform: "rotateX(180deg)", opacity: 1 },
-      "100%": {
-        transform: "rotateX(360deg)",
-        opacity: 0,
-        pointerEvents: "none",
-      },
-    },
-    position: "relative",
+    position: "sticky",
+    top: "15vh",
     width: "40vh",
     height: "70vh",
     maxWidth: "400px",
     maxHeight: "600px",
     perspective: "1500px",
   },
+  // Styles for the cover container (will be animated)
+  coverContainer: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    zIndex: 3,
+    transformStyle: "preserve-3d",
+    transformOrigin: "top center",
+  },
+  // Styles for the content page inside the book
   contentPage: {
     position: "absolute",
     width: "100%",
@@ -51,6 +58,29 @@ const styles = {
     fontFamily: '"Yuji Syuku", serif',
     flexShrink: 0,
   },
+  // Styles for the search input field
+  searchInput: {
+    mb: 2,
+    flexShrink: 0,
+    "& .MuiOutlinedInput-root": {
+      fontFamily: '"Yuji Syuku", serif',
+      backgroundColor: "rgba(211, 195, 167, 0.1)",
+      "& fieldset": {
+        borderColor: "rgba(62, 39, 35, 0.3)",
+      },
+      "&:hover fieldset": {
+        borderColor: "rgba(62, 39, 35, 0.6)",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#3e2723",
+      },
+      "& .MuiInputBase-input::placeholder": {
+        color: "#3e2723",
+        opacity: 0.6,
+      },
+    },
+  },
+  // Styles for the list of posts
   postList: {
     overflowY: "auto",
     "&::-webkit-scrollbar": { width: "8px" },
@@ -71,15 +101,7 @@ const styles = {
       color: "#3e2723",
     },
   },
-  coverContainer: {
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    zIndex: 3,
-    transformStyle: "preserve-3d",
-    transformOrigin: "top center",
-    animation: "flip-and-fade-out 1.5s ease-in-out forwards",
-  },
+  // Styles for the front and back faces of the cover
   coverFace: {
     position: "absolute",
     width: "100%",
@@ -95,6 +117,7 @@ const styles = {
   coverFaceFront: {
     boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
   },
+  // Styles for decorative elements on the cover
   coverBinding: {
     position: "absolute",
     top: "1.5rem",
@@ -135,73 +158,107 @@ const styles = {
     textOrientation: "mixed",
     letterSpacing: "0.5rem",
   },
-  // The problematic box1 style is now completely removed.
 } as const;
 
+// Unchanged CoverTitle component
 const CoverTitle = () => (
   <Box sx={styles.coverTitleBox}>
     <Typography sx={styles.coverTitleText}>友人帳</Typography>
   </Box>
 );
 
+// The complete and corrected InteractiveBook component
 export default function InteractiveBook({ posts }: { posts: PostSummary[] }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const scrollTriggerRef = useRef<HTMLDivElement>(null);
 
-  const handleOpenBook = () => {
-    if (!isOpen) setIsOpen(true);
-  };
+  const { scrollYProgress } = useScroll({
+    target: scrollTriggerRef,
+    offset: ["start start", "end end"],
+  });
 
-  // THE FIX: The root element is now the book's main container.
-  // The outer wrapper <Box sx={styles.box1}> has been REMOVED.
+  // Map scroll progress to animation values
+  const coverRotateX = useTransform(scrollYProgress, [0, 0.5], [0, 180]);
+  const coverOpacity = useTransform(scrollYProgress, [0.4, 0.5], [1, 0]);
+  const contentOpacity = useTransform(scrollYProgress, [0.45, 0.6], [0, 1]);
+  const contentPointerEvents = useTransform(scrollYProgress, (v) =>
+    v > 0.6 ? "auto" : "none"
+  );
+
+  const filteredPosts = posts.filter((post) =>
+    post.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <Box
-      onClick={handleOpenBook}
-      sx={[styles.mainContainer, { cursor: isOpen ? "default" : "pointer" }]}
-    >
-      <Box
-        sx={[
-          styles.contentPage,
-          {
-            opacity: isOpen ? 1 : 0,
-            pointerEvents: isOpen ? "auto" : "none",
-          },
-        ]}
-      >
-        <Typography variant="h5" component="h2" sx={styles.contentPageTitle}>
-          目次
-        </Typography>
-        <List sx={styles.postList}>
-          {posts.map((post) => (
-            <ListItemButton
-              key={post.slug}
-              component={Link}
-              href={`/blog/${post.slug}`}
-              sx={styles.postListItem}
-            >
-              <ListItemText
-                primary={post.title}
-                sx={styles.postListItemText}
-              />
-            </ListItemButton>
-          ))}
-        </List>
-      </Box>
+    // This is the invisible scrollable area that drives the animation
+    <Box ref={scrollTriggerRef} sx={{ height: "200vh", position: "relative" }}>
 
-      <Box
-        sx={[
-          styles.coverContainer,
-          { animationPlayState: isOpen ? "running" : "paused" },
-        ]}
-      >
-        <Box sx={[styles.coverFace, styles.coverFaceFront]}>
-          <Box sx={styles.coverBinding} />
-          <CoverTitle />
-        </Box>
-        <Box sx={[styles.coverFace, { transform: "rotateX(180deg)" }]}>
-          <Typography variant="caption" sx={{ color: "#aaa" }}>
-            The inside cover...
-          </Typography>
-        </Box>
+      {/* This is the book itself, which sticks to the viewport while scrolling */}
+      <Box sx={styles.mainContainer}>
+
+        {/* The book's content page, animated with Framer Motion */}
+        <motion.div
+          style={{
+            opacity: contentOpacity,
+            pointerEvents: contentPointerEvents as MotionValue<"auto" | "none">,
+          }}
+        >
+          <Box sx={styles.contentPage}>
+            <Typography variant="h5" component="h2" sx={styles.contentPageTitle}>
+              目次
+            </Typography>
+            <TextField
+              variant="outlined"
+              fullWidth
+              placeholder="記事名を呼ぶ..."
+              sx={styles.searchInput}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: "#3e2723" }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <List sx={styles.postList}>
+              {filteredPosts.map((post) => (
+                <ListItemButton
+                  key={post.slug}
+                  component={Link}
+                  href={`/blog/${post.slug}`}
+                  sx={styles.postListItem}
+                >
+                  <ListItemText
+                    primary={post.title}
+                    sx={styles.postListItemText}
+                  />
+                </ListItemButton>
+              ))}
+            </List>
+          </Box>
+        </motion.div>
+
+        {/* The book's cover, animated with Framer Motion */}
+        <motion.div
+          style={{
+            ...styles.coverContainer,
+            rotateX: coverRotateX,
+            opacity: coverOpacity,
+          }}
+        >
+          <Box sx={[styles.coverFace, styles.coverFaceFront]}>
+            <Box sx={styles.coverBinding} />
+            <CoverTitle />
+          </Box>
+          <Box sx={[styles.coverFace, { transform: "rotateX(180deg)" }]}>
+            <Typography variant="caption" sx={{ color: "#aaa" }}>
+              The inside cover...
+            </Typography>
+          </Box>
+        </motion.div>
       </Box>
     </Box>
   );

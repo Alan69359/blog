@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import {
   Search,
-  KeyboardArrowUp
+  KeyboardArrowUp,
 } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
 import ThemeToggle from 'ui/tooltip';
@@ -139,7 +139,7 @@ export function AppBar1() {
   return (
     <>
       <HideAppbar>
-        <GlassAppBar position="fixed" elevation={0} color="inherit">
+        <GlassAppBar position="fixed" elevation={0} color="inherit" sx={{ paddingY: 0 }}>
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <DesktopNavigation />

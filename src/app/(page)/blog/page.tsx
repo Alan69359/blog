@@ -4,7 +4,7 @@ import * as React from 'react';
 import { getSortedPostsData } from 'lib/posts';
 import { Box } from '@mui/material';
 import InteractiveBook from 'lib/InteractiveBook';
-import { Background2 } from 'styles/client'; // Your background
+import { StyledPageBackground } from 'styles/client'; // Your background
 
 const styles = {
     contentContainer: {
@@ -25,8 +25,7 @@ export default async function BlogPage() {
 
     return (
         <>
-            {/* The global background is rendered here. */}
-            <Background2 />
+            <StyledPageBackground imageUrl='images/wallpaper2.jpg' />
 
             <Box sx={styles.contentContainer}>
                 {/* Now you can safely restore your book component. */}

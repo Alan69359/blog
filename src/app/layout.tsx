@@ -1,20 +1,19 @@
-// src/app/layout.tsx
+// src/app/layout.tsx (The Final Correct Version)
 
 'use client';
 
 import "styles/global.css";
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { AppBar1 } from "ui/app-bar"; // Your Header
-import { Box1 } from 'ui/box';      // Your Footer
+// --- Add Toolbar to your imports ---
+import { Toolbar } from '@mui/material';
+import { AppBar1 } from "ui/app-bar";
+import { Box1 } from 'ui/box';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from 'lib/theme';
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import CssBaseline from '@mui/material/CssBaseline';
 import Live2DViewer from "lib/Live2DViewer";
-
-// The global background should be placed here if it applies to EVERY page.
-// Let's assume you'll add it to specific pages for now to avoid confusion.
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -24,36 +23,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ThemeProvider theme={theme}>
             <CssBaseline />
 
-            {/* THE STICKY FOOTER CONTAINER */}
-            <Live2DViewer/>
+            <Live2DViewer />
+
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                // This is the key: The layout is AT LEAST the height of the screen.
-                // It can grow taller if the content is long, allowing scrolling.
                 minHeight: '100vh',
               }}
             >
-              {/* Header is a normal element, it will scroll. */}
+              {/* This is your position: "fixed" header */}
               <AppBar1 />
 
-              {/* 
-                This is the main content area. It MUST be a flex container
-                so that its children can use flex-grow.
-              */}
+              {/* --- THE FIX --- */}
+              {/* This empty Toolbar acts as a spacer. It occupies space in the layout */}
+              {/* and has the exact same responsive height as the one in your AppBar, */}
+              {/* pushing all the content below it down by the correct amount. */}
+              <Toolbar />
+
               <Box
                 component="main"
                 sx={{
-                  flexGrow: 1, // THE MAGIC: This pushes the footer down.
+                  flexGrow: 1,
                   display: 'flex',
                   flexDirection: 'column',
+                  // We no longer need paddingTop here, the Toolbar spacer handles it.
                 }}
               >
                 {children}
               </Box>
 
-              {/* Footer is a normal element, sticky due to the flex layout. */}
               <Box1 />
             </Box>
           </ThemeProvider>
